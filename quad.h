@@ -36,6 +36,7 @@ typedef struct ForceInput {
 	double theta_max;
 	double G;
 	double epsilon;
+	double delta_t;
 	int id;
 	int interval;
 }forceInput_t;
