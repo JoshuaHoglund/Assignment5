@@ -18,7 +18,7 @@ int main(int argc, const char* argv[]) {
 
 // check if the parameters in the command line are correct, otherwise error message with instructions.	
   	if(argc != 8) {
-      printf("Please give in: N filename nsteps delta_t theta_max graphics.\n");
+      printf("Please give in: N filename nsteps delta_t theta_max graphics n_threads.\n");
       return -1;
     }
  
