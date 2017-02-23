@@ -69,6 +69,31 @@ force_t* getForce(p_qtree ** node, particle_t p, double thetamax, double G, doub
 	}
 }
 
+void * thread_func(void* arg) {
+	forceInput_t * forceInput = (forceInput_t *) arg;
+	int interval = (*forceInput).interval;
+	int id = (*forceInput).id;
+	int iterations = interval*(id+2);
+	p_qtree * head = (*forceInput).head;
+	double theta_max = (*forceInput).theta_max;
+	double epsilon = (*forceInput).epsilon;
+	
+	particle_t * particles = (*forceInput).particles;
+	
+	for(int i=interval*(id+1);i<iterations;i++) {
+	      force_t * force = (force_t*)calloc(1,sizeof(force_t));
+	      force = getForce(&head, particles[i],theta_max,G,epsilon);
+	      double m_i = 1/particles[i].mass;
+	      particles[i].vel_x += delta_t*(*force).x*m_i;
+	      particles[i].vel_y += delta_t*(*force).y*m_i;
+	      particles[i].x_pos += delta_t*particles[i].vel_x;
+	      particles[i].y_pos += delta_t*particles[i].vel_y;  
+	      free(force);
+	}
+	
+	return NULL;
+}
+
 void printTree(p_qtree ** node) {
 	if ((**node).nw==NULL) {
 		if ((**node).mass==0) {
