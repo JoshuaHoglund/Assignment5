@@ -127,6 +127,7 @@ pthread_t threads[num_threads-1];
 		      (*forceInput).epsilon = epsilon;
 		      (*forceInput).id = th;
 		      (*forceInput).interval = interval;
+		      (*forceInput).delta_t = delta_t;
 		      pthread_create(&threads[th],NULL, thread_func,(void*) forceInput);
 	      }
 	      
