@@ -121,7 +121,7 @@ pthread_t threads[num_threads-1];
 	      for (int th=0;th<num_threads-1;th++) {
 		      forceInput_t * forceInput = (forceInput_t*) malloc(sizeof(forceInput_t));
 		      (*forceInput).head = head;
-		      (*forceInput).p = particles;
+		      (*forceInput).particles = particles;
 		      (*forceInput).theta_max = theta_max;
 		      (*forceInput).G = G;
 		      (*forceInput).epsilon = epsilon;
