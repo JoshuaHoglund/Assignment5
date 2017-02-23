@@ -30,6 +30,16 @@ typedef struct Quadtree {
 	double mass;	
 }p_qtree;
 
+typedef struct ForceInput {
+	p_qtree * head;
+	particle_t * p;
+	double theta_max;
+	double G;
+	double epsilon;
+	int id;
+	int interval;
+}forceInput_t;
+
 void insert(p_qtree ** node, particle_t p);
 
 force_t* getForce(p_qtree ** node, particle_t p, double thetamax, double G, double epsilon);
@@ -41,3 +51,5 @@ void nullifyChildren(p_qtree **node);
 void massification(p_qtree ** node);
 
 void printTree(p_qtree ** node);
+
+void * thread_func(void* arg);
