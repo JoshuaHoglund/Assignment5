@@ -52,7 +52,7 @@ int main(int argc, const char* argv[]) {
  	
    int graphics = atoi(argv[6]);
 int num_threads = atoi(argv[7]);
-pthreads_t threads[num_threads-1];
+pthread_t threads[num_threads-1];
   
  double *values =(double*)malloc(5*N*sizeof(double));
  read_doubles_from_file(atoi(argv[1])*5, values, argv[2]);
@@ -115,7 +115,7 @@ pthreads_t threads[num_threads-1];
 	      
 	      
  
-	      int interval = N/num_thread;
+	      int interval = N/num_threads;
 	      int remainder = N%num_threads;
 	      
 	      for (int th=0;th<num_threads-1;th++) {
