@@ -16,7 +16,7 @@ int main(int argc, const char* argv[]) {
  // graphics is 1 or 0 meaning graphics on/off
 
 // check if the parameters in the command line are correct, otherwise error message with instructions.	
-  	if(argc != 7) {
+  	if(argc != 8) {
       printf("Please give in: N filename nsteps delta_t theta_max graphics.\n");
       return -1;
     }
@@ -50,6 +50,7 @@ int main(int argc, const char* argv[]) {
  	double delta_t = atof(argv[4]);
  	
    int graphics = atoi(argv[6]);
+int num_threads = atoi(argv[7]);
   
  double *values =(double*)malloc(5*N*sizeof(double));
  read_doubles_from_file(atoi(argv[1])*5, values, argv[2]);
