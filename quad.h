@@ -32,7 +32,7 @@ typedef struct Quadtree {
 
 typedef struct ForceInput {
 	p_qtree * head;
-	particle_t * p;
+	particle_t * particles;
 	double theta_max;
 	double G;
 	double epsilon;
