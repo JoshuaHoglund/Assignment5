@@ -6,6 +6,7 @@
 #include "quad.h"
 #include <sys/time.h>
 #include <time.h>
+#include <pthread.h>
 
 int main(int argc, const char* argv[]) { 
  // read in N filename nsteps delta_t graphics
@@ -51,6 +52,7 @@ int main(int argc, const char* argv[]) {
  	
    int graphics = atoi(argv[6]);
 int num_threads = atoi(argv[7]);
+pthreads_t threads[num_threads-1];
   
  double *values =(double*)malloc(5*N*sizeof(double));
  read_doubles_from_file(atoi(argv[1])*5, values, argv[2]);
@@ -106,9 +108,29 @@ int num_threads = atoi(argv[7]);
 
     //gettimeofday(&t3,0);
    //elapsed_time_mass += (t3.tv_sec-t2.tv_sec)*1e6 + t3.tv_sec-t2.tv_sec;
-	// gettimeofday(&t1,0);        
+	// gettimeofday(&t1,0);  
+	      
+	      
+	      
+	      
+	      
  
-	for(int i=0;i<N;i++){
+	      int interval = N/num_thread;
+	      int remainder = N%num_threads;
+	      
+	      for (int th=0;th<num_threads-1;th++) {
+		      forceInput_t * forceInput = (forceInput_t*) malloc(sizeof(forceInput_t));
+		      (*forceInput).head = head;
+		      (*forceInput).p = particles;
+		      (*forceInput).theta_max = theta_max;
+		      (*forceInput).G = G;
+		      (*forceInput).epsilon = epsilon;
+		      (*forceInput).id = th;
+		      (*forceInput).interval = interval;
+		      pthread_create(&threads[th],NULL, thread_func,(void*) forceInput);
+	      }
+	      
+	for(int i=0;i<interval;i++){
 	      force_t * force = (force_t*)calloc(1,sizeof(force_t));
 	      force = getForce(&head, particles[i],theta_max,G,epsilon);
 	      double m_i = 1/particles[i].mass;
@@ -118,6 +140,22 @@ int num_threads = atoi(argv[7]);
 	      particles[i].y_pos += delta_t*particles[i].vel_y;  
 	      free(force);
 	   }
+	   
+	for(int i=N-remainder;i<N;i++) {
+	      force_t * force = (force_t*)calloc(1,sizeof(force_t));
+	      force = getForce(&head, particles[i],theta_max,G,epsilon);
+	      double m_i = 1/particles[i].mass;
+	      particles[i].vel_x += delta_t*(*force).x*m_i;
+	      particles[i].vel_y += delta_t*(*force).y*m_i;
+	      particles[i].x_pos += delta_t*particles[i].vel_x;
+	      particles[i].y_pos += delta_t*particles[i].vel_y;  
+	      free(force);
+	}
+	      
+	      for(int th=0;th<num_threads-1;th++) {
+		      pthread_join(threads[th], NULL);
+	      }
+	      
         
    
    delete(&head);
