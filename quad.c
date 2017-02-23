@@ -78,9 +78,8 @@ void * thread_func(void* arg) {
 	double theta_max = (*forceInput).theta_max;
 	double epsilon = (*forceInput).epsilon;
 	double G = (*forceInput).G;
-	double delta_t = (*forceInput).delta_t;
-	
-	particle_t * particles = (*forceInput_t).particles;
+	double delta_t = (*forceInput).delta_t;	
+	particle_t * particles = (*forceInput).particles;
 	
 	for(int i=interval*(id+1);i<iterations;i++) {
 	      force_t * force = (force_t*)calloc(1,sizeof(force_t));
