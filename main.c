@@ -117,7 +117,7 @@ pthread_t threads[num_threads-1];
  
 	      int interval = N/num_threads;
 	      int remainder = N%num_threads;
-	      int* addressesToDestroy = (int*)malloc((num_treads-1)*sizeof(int));
+	      int** addressesToDestroy = (int**)malloc((num_treads-1)*sizeof(int*));
 	      
 	      for (int th=0;th<num_threads-1;th++) {
 		      forceInput_t * forceInput = (forceInput_t*) malloc(sizeof(forceInput_t));
@@ -160,10 +160,18 @@ pthread_t threads[num_threads-1];
 	      free(force);
 	}
 	      
-	      for(int th=0;th<num_threads-1;th++) {
-		      pthread_join(threads[th], NULL);
-	      }
-	      
+	       
+      for(int th=0;th<num_threads-1;th++) {
+	      pthread_join(threads[th], NULL);
+      }
+
+      for(int th=0; th<num_threads-1; th++){
+	 int iterations = interval*(th+2);
+	     for(int i=interval*(th+1);i<iterations;i++){
+		 particles[i]=(*((forceInput_t *) addressesToDestroy[th])).particles[i];	 
+	 }
+ }
+
         
    
    delete(&head);
