@@ -170,6 +170,7 @@ pthread_t threads[num_threads-1];
 	     for(int i=interval*(th+1);i<iterations;i++){
 		 particles[i]=(*((forceInput_t *) addressesToDestroy[th])).particles[i];	 
 	 }
+	      free((forceInput_t *) addressesToDestroy[th]);
  }
 
         
