@@ -1,7 +1,7 @@
 CC = gcc -std=c99 
 LD = gcc -std=c99 
 CFLAGS = -O3 -Wall -Werror
-LDFLAGS =-L/opt/X11/lib -lX11 -lm 
+LDFLAGS =-L/opt/X11/lib -lX11 -lm -lpthread
 INCLUDES=-I/opt/X11/include
 RM = /bin/rm -f
 OBJS = main.o file_operations.o graphics.o quad.o
@@ -10,7 +10,7 @@ EXECUTABLE = galsim
 all:$(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJS)
-	$(LD) $(LDFLAGS) $(OBJS) -o $(EXECUTABLE) $(LDFLAGS)
+	$(LD) $(OBJS) -o $(EXECUTABLE) $(LDFLAGS)
 
 graphics.o: graphics.h graphics.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c graphics.c 
