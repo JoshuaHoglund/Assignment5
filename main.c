@@ -117,11 +117,18 @@ pthread_t threads[num_threads-1];
  
 	      int interval = N/num_threads;
 	      int remainder = N%num_threads;
+	      int* addressesToDestroy = (int*)malloc((num_treads-1)*sizeof(int));
 	      
 	      for (int th=0;th<num_threads-1;th++) {
 		      forceInput_t * forceInput = (forceInput_t*) malloc(sizeof(forceInput_t));
 		      (*forceInput).head = head;
-		      (*forceInput).particles = particles;
+		      addressesToDestroy[th] = (int*)forceInput;
+		      particle_t *tempParticles = (particle_t *)malloc(N*sizeof(particle_t));
+		      for(int i=0;i<N,i++){
+			      tempParticles[i]=particles[i];
+		      }
+		      
+		      (*forceInput).particles = tempParticles;
 		      (*forceInput).theta_max = theta_max;
 		      (*forceInput).G = G;
 		      (*forceInput).epsilon = epsilon;
