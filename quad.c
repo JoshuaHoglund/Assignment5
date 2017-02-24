@@ -91,7 +91,7 @@ void * thread_func(void* arg) {
 	      particles[i].y_pos += delta_t*particles[i].vel_y;  
 	      free(force);
 	}
-	
+	free(forceInput);
 	return NULL;
 }
 
